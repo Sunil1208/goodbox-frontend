@@ -1,13 +1,13 @@
 import React,{useState,useEffect} from 'react'
-import { getData } from '../helper/apicall'
 import { Paper, Typography, Button } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import BattingData from '../battingData/BattingData';
 import BowlingData from '../bowlingData/BowlingData';
+import { getData } from '../../apicall';
 
 
 
-const Profile = ({imageUrl,name,team}) => {
+const Profile = ({imageUrl,name,team,paramName}) => {
 
     const [playerData,setPlayerData] = useState([]);
     const [loading,setLoading] = useState(false);
@@ -15,36 +15,26 @@ const Profile = ({imageUrl,name,team}) => {
 
     const loadData = () => {
         setLoading(true)
-        getData().then(result => {
-            console.log(result)
-            //console.log(result.data[0].batData[0])
-            //let tempData = result.data[0].batData
-            //console.log(typeof(tempData))
-            //console.log(tempData.length)
-            // for(var i = 0;i<tempData.length;i++)
-            // {
-            //     console.log(tempData[i])
-            // }
-            console.log(result.data[0].full_name)
+        getData(paramName).then(result => {
+            console.log(result)  
             if(result?.error){
                 console.log(result.error)
             } else {
                 setPlayerData(result)
-                setIsDataSet(true)
                 setLoading(false)
+                setIsDataSet(true)
             }
         })
     }
 
+    // useEffect(() => {
+    //     loadData()
+    // },[])
+
     
 
     const handleChange = () => {
-        loadData()
-        if(setIsDataSet){
-            console.log(`Player Data`)
-        console.log(playerData)
-        }
-        
+        loadData()        
         // console.log(playerData)
         // let tempData = playerData
         // console.log(`Temp data is `)
@@ -57,22 +47,31 @@ const Profile = ({imageUrl,name,team}) => {
         <Paper elevation={3} >
             <div className="container">
                 <div className="row">
-                    <div className="col-9 pt-3">
-                        <Typography>{name}</Typography>
-                        <Typography>{team}</Typography>
+                    <div className="col-8 pt-3">
+                        <Typography className="font-weight-bold" >{name}</Typography>
+                        <Typography className="font-weight-bold" >{team}</Typography>
+                        
                         
                     </div>
-                    <div className="col-3">
+                    <div className="col-4">
                     <div className="row">
-                        <div className="col-lg-6 col-md-6 col-xs-12">
+                        <div className="col-lg-6 col-md-6 col-xs-3 text-left">
                         
                         <button onClick={handleChange}  className="btn mt-3"><RefreshIcon/>Refresh</button>
+                        
                         </div>
                     </div>
                         
                     </div>
                 </div>
-                <hr/>
+                <div className="row mb-0">
+                    <div className="col-lg-6 col-xs-6 col-md-12 mb-0">
+                    {isDataSet && (
+                        <p ><span className="font-weight-bold">Last updated at :</span> {playerData.data[0].last_update}</p>
+                    )}
+                    </div>
+                </div>
+                <hr className="mt-0" ></hr>
                 
                     <div className="row">
                     <div className="col-8 mt-3">

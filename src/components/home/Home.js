@@ -1,7 +1,5 @@
 import React,{useState} from 'react'
-import { getData } from '../helper/apicall';
 import { Paper, Typography, Button } from '@material-ui/core';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import Profile from '../profile/Profile';
 
 
@@ -15,36 +13,40 @@ const Home = () => {
     let rahulImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRu6ZYccoJW2T7Jb2rwWodD4zBX5N5jUYRGnQlNiXxgkO8b96hS&usqp=CAU"
     let bumrahImage = "data:image/jpeg;base64,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"
 
+    // let shikharUrl = "https://www.espncricinfo.com/india/content/player/28235.html"
+    // let viratUrl = "https://www.espncricinfo.com/india/content/player/253802.html"
+    // let rahulUrl = "https://www.espncricinfo.com/india/content/player/422108.html"
+    // let bumrahUrl = "https://www.espncricinfo.com/india/content/player/625383.html"
 
-    const loadData = () => {
-        setLoading(true)
-        getData().then(data => {
-            if(data.error){
-                console.log(data.error)
-            } else {
-                setData(data)
-                console.log(data)
-                setLoading(false)
-            }
-        })
-    }
+    // const loadData = () => {
+    //     setLoading(true)
+    //     getData().then(data => {
+    //         if(data.error){
+    //             console.log(data.error)
+    //         } else {
+    //             setData(data)
+    //             console.log(data)
+    //             setLoading(false)
+    //         }
+    //     })
+    // }
 
     const LoadProfile = (player) => {
         if(player ===1){
             return(
-                <Profile imageUrl={shikharImage} name="Shikhar Dhawan" team="India" />
+                <Profile imageUrl={shikharImage} name="Shikhar Dhawan" paramName="dhawan" team="India" emptyData="false" />
             )
         } else if(player ===2){
             return(
-                <Profile imageUrl={viratImage} name="Viral Kohli" team="India" />
+                <Profile imageUrl={viratImage} name="Viral Kohli" paramName="virat" team="India" emptyData="false" />
             )
         } else if(player ===3){
             return(
-                <Profile imageUrl={rahulImage} name="KL Rahul" team="India" />
+                <Profile imageUrl={rahulImage} name="KL Rahul" paramName="rahul" team="India" emptyData="false" />
             )
         } else if(player ===4){
             return(
-                <Profile imageUrl={bumrahImage} name="Jasprit Bumrah" team="India" />
+                <Profile imageUrl={bumrahImage} name="Jasprit Bumrah" paramName="bumrah" team="India"  emptyData="false" />
             )
         }
     }

@@ -45,6 +45,9 @@ const BowlingData = ({bowling,playerData}) => {
                 return(<tr key={i} >
                     {
                         numList.map((num,j) => {
+                            if(j===0){
+                                return (<th key={j} >{num}</th>)
+                            }
                             return(<td key={j} >{num}</td>)
                         })
                     }
