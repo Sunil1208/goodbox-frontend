@@ -23,7 +23,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:5050/",
+  "proxy": "https://goodbox-backend.herokuapp.com/",
   "browserslist": {
     "production": [
       ">0.2%",
